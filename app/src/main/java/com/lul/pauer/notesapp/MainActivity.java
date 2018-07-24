@@ -18,18 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    NotesList notes = new NotesList();
     private RecyclerView recyclerView;
     private NoteAdapter noteAdapter;
+    private NotesListSingleton notesListSingleton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        notesListSingleton = NotesListSingleton.getInstance();
+
 
         recyclerView = findViewById(R.id.mainRecyclerView);
-        noteAdapter = new NoteAdapter(notes.getNotes());
+        noteAdapter = new NoteAdapter(notesListSingleton.getNotes());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }));
 
-
+        noteAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                notes.addNote(new Note("<blank>", ""));
+                notesListSingleton.addNote(new Note("<blank>", ""));
                 Toast.makeText(this, "added", Toast.LENGTH_SHORT).show();
                 break;
             default:
@@ -74,8 +76,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToNext(int index) {
         Intent intent = new Intent(getApplicationContext(), EditNoteActivity.class);
-        intent.putExtra("list", notes);
+       // intent.putExtra("list", notes);
         intent.putExtra("index", index);
-        startActivity(intent);
+        startActivityForResult(intent,1);//TODO change request code and check what is this
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            noteAdapter.notifyDataSetChanged();
+        }
     }
 }

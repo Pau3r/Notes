@@ -1,5 +1,6 @@
 package com.lul.pauer.notesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class EditNoteActivity extends AppCompatActivity {
-    private NotesList notesList = new NotesList();
+    private NotesListSingleton notesListSingleton;
     private int indexInNotesList;
     private TextView textView;
 
@@ -22,15 +23,15 @@ public class EditNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_note);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        notesListSingleton = NotesListSingleton.getInstance();
 
         Bundle data = getIntent().getExtras();
-        notesList = data.getParcelable("list");
         indexInNotesList = data.getInt("index");
 
         textView = findViewById(R.id.textView);
 
-        textView.setText(notesList.getOneNoteTitle(indexInNotesList));
-
+        textView.setText(notesListSingleton.getOneNoteTitle(indexInNotesList));
+        notesListSingleton.setOneNoteTitle(indexInNotesList,":))):):):):)):):)");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,4 +43,9 @@ public class EditNoteActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void finish() {//TODO REQUEST CODE
+        setResult(1);
+        super.finish();
+    }
 }
