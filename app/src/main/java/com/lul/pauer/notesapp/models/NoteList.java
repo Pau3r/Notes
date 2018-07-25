@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.lul.pauer.notesapp.interfaces.ListContainer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class NoteList implements ListContainer {
+public class NoteList implements ListContainer, Serializable {
     private final static NoteList ourInstance = new NoteList();
 
     private static List<Note> notes = new ArrayList<>();
@@ -24,9 +26,17 @@ public class NoteList implements ListContainer {
         return notes;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public final void addAll(List list) {
-        notes = list;
+        try {
+
+            notes = (ArrayList<Note>) list;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -63,12 +73,14 @@ public class NoteList implements ListContainer {
     }
 
     @Override
-    public void removeAll() {
-        notes = null;
+    public final void removeAll() {
+        for (Iterator iterator = notes.listIterator(); iterator.hasNext(); ) {
+            iterator.remove();
+        }
     }
 
     @Override
-    public void removeOne(int index) {
+    public final void removeOne(int index) {
         notes.remove(index);
     }
 
@@ -80,7 +92,7 @@ public class NoteList implements ListContainer {
      * @return returns String
      */
     @Override
-    public String getContent(int index, int flag) {
+    public final String getContent(int index, int flag) {
         switch (flag) {
             case 1:
                 return notes.get(index).getTitle();

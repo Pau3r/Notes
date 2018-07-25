@@ -1,6 +1,7 @@
 package com.lul.pauer.notesapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,17 +18,29 @@ import com.lul.pauer.notesapp.adapters.NoteAdapter;
 import com.lul.pauer.notesapp.models.NoteList;
 import com.lul.pauer.notesapp.R;
 import com.lul.pauer.notesapp.models.RecyclerItemListener;
+import com.lul.pauer.notesapp.models.SavePreferences;
+
 
 public class MainActivity extends AppCompatActivity {
     private NoteAdapter noteAdapter;
     private NoteList noteList;
-
+    SharedPreferences  sharedPreferences;
+    SavePreferences savePreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        noteList = NoteList.getInstance();
+
+
+       sharedPreferences = getSharedPreferences("com.lul.pauer.notesapp",MODE_PRIVATE);
+       savePreferences = new SavePreferences(sharedPreferences);
+       savePreferences.readNoteList();
+       noteList = NoteList.getInstance();
+
+
+
+
 
 
         RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
@@ -42,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClickItem(View v, int position) {
                 goToNext(position);
+                savePreferences.saveNoteList();
             }
 
             @Override
@@ -68,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add:
                 noteList.addOne(new Note(getResources().getString(R.string.noName), ""));
                 Toast.makeText(this, "added", Toast.LENGTH_SHORT).show();
+                savePreferences.saveNoteList();
                 break;
             default:
                 break;
@@ -89,4 +104,5 @@ public class MainActivity extends AppCompatActivity {
             noteAdapter.notifyDataSetChanged();
         }
     }
+
 }

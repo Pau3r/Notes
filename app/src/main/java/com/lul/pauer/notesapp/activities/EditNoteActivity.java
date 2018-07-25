@@ -55,13 +55,15 @@ public class EditNoteActivity extends AppCompatActivity {
                 break;
             case R.id.delete:
                 noteList.removeOne(indexInNotesList);
-                finish();
+                setResult(1);
+                super.finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void finish() {//TODO REQUEST CODE
+
         if (!textInputEditTextTitle.getText().toString().equals("")) {
             noteList.setOne(indexInNotesList, 1, textInputEditTextTitle.getText().toString());
         } else {
@@ -70,7 +72,6 @@ public class EditNoteActivity extends AppCompatActivity {
 
         noteList.setOne(indexInNotesList, 2, textInputEditTextContent.getText().toString());
 
-        setResult(1);
         super.finish();
     }
 }
