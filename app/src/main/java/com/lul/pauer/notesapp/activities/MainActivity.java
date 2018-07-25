@@ -19,12 +19,13 @@ import com.lul.pauer.notesapp.models.NoteList;
 import com.lul.pauer.notesapp.R;
 import com.lul.pauer.notesapp.models.RecyclerItemListener;
 import com.lul.pauer.notesapp.models.SavePreferences;
+import com.lul.pauer.notesapp.services.AppKillService;
 
 
 public class MainActivity extends AppCompatActivity {
     private NoteAdapter noteAdapter;
     private NoteList noteList;
-    SharedPreferences  sharedPreferences;
+    SharedPreferences sharedPreferences;
     SavePreferences savePreferences;
 
     @Override
@@ -32,16 +33,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-       sharedPreferences = getSharedPreferences("com.lul.pauer.notesapp",MODE_PRIVATE);
-       savePreferences = new SavePreferences(sharedPreferences);
-       savePreferences.readNoteList();
-       noteList = NoteList.getInstance();
-
-
-
-
-
+        sharedPreferences = getSharedPreferences("com.lul.pauer.notesapp", MODE_PRIVATE);
+        savePreferences = new SavePreferences(sharedPreferences);
+        savePreferences.readNoteList();
+        noteList = NoteList.getInstance();
+        Intent appKillService = new Intent(this, AppKillService.class);
+        startService(appKillService);
 
         RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClickItem(View v, int position) {
                 goToNext(position);
-                savePreferences.saveNoteList();
+                //savePreferences.saveNoteList();
             }
 
             @Override
@@ -81,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add:
                 noteList.addOne(new Note(getResources().getString(R.string.noName), ""));
-                Toast.makeText(this, "added", Toast.LENGTH_SHORT).show();
-                savePreferences.saveNoteList();
+                Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+                //savePreferences.saveNoteList();
                 break;
             default:
                 break;

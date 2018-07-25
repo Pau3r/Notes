@@ -3,6 +3,8 @@ package com.lul.pauer.notesapp.activities;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +20,7 @@ public class EditNoteActivity extends AppCompatActivity {
     private TextInputEditText textInputEditTextContent;
 
 
-    //TODO add delete button, best in menu
+    //TODO add delete button, best in menu. Cleanup code
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,7 @@ public class EditNoteActivity extends AppCompatActivity {
         }
         textInputEditTextContent.setText(noteList.getContent(indexInNotesList, 2));
 
+        textWatchers();
 
     }
 
@@ -61,6 +64,7 @@ public class EditNoteActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void finish() {//TODO REQUEST CODE
 
@@ -74,4 +78,44 @@ public class EditNoteActivity extends AppCompatActivity {
 
         super.finish();
     }
+
+    void textWatchers() {
+        textInputEditTextTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!textInputEditTextTitle.getText().toString().equals("")) {
+                    noteList.setOne(indexInNotesList, 1, textInputEditTextTitle.getText().toString());
+                } else {
+                    noteList.setOne(indexInNotesList, 1, getResources().getString(R.string.noName));
+                }
+            }
+        });
+
+        textInputEditTextContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                noteList.setOne(indexInNotesList, 2, textInputEditTextContent.getText().toString());
+            }
+        });
+    }
+
 }

@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">NotesApp</string>
     <string name="add">Dodaj</string>
+    <string name="added">Dodano</string>
     <string name="title_activity_edit_note">Edytuj</string>
     <string name="delete">Usuń</string>
     <string name="hintTitle">Tytuł</string>
