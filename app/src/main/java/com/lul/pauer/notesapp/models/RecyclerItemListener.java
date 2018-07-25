@@ -1,4 +1,4 @@
-package com.lul.pauer.notesapp;
+package com.lul.pauer.notesapp.models;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

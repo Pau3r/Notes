@@ -1,10 +1,9 @@
-package com.lul.pauer.notesapp;
+package com.lul.pauer.notesapp.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -13,25 +12,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.lul.pauer.notesapp.models.Note;
+import com.lul.pauer.notesapp.adapters.NoteAdapter;
+import com.lul.pauer.notesapp.models.NoteList;
+import com.lul.pauer.notesapp.R;
+import com.lul.pauer.notesapp.models.RecyclerItemListener;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
     private NoteAdapter noteAdapter;
-    private NotesListSingleton notesListSingleton;
+    private NoteList noteList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        notesListSingleton = NotesListSingleton.getInstance();
+        noteList = NoteList.getInstance();
 
 
-        recyclerView = findViewById(R.id.mainRecyclerView);
-        noteAdapter = new NoteAdapter(notesListSingleton.getNotes());
+        RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        noteAdapter = new NoteAdapter(noteList.getList());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -61,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                notesListSingleton.addNote(new Note("<blank>", ""));
+                noteList.addOne(new Note(getResources().getString(R.string.noName), ""));
                 Toast.makeText(this, "added", Toast.LENGTH_SHORT).show();
                 break;
             default:
@@ -76,15 +78,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToNext(int index) {
         Intent intent = new Intent(getApplicationContext(), EditNoteActivity.class);
-       // intent.putExtra("list", notes);
         intent.putExtra("index", index);
-        startActivityForResult(intent,1);//TODO change request code and check what is this
+        startActivityForResult(intent, 1);//TODO change request code and check what is this
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        if (requestCode == 1) {
             noteAdapter.notifyDataSetChanged();
         }
     }

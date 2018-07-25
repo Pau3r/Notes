@@ -1,4 +1,4 @@
-package com.lul.pauer.notesapp;
+package com.lul.pauer.notesapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

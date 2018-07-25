@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">NotesApp</string>
-    <string name="add"></string>
-    <string name="title_activity_edit_note">EditNoteActivity</string>
+    <string name="add">Add</string>
+    <string name="title_activity_edit_note">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="hintTitle">Title</string>
+    <string name="hintContent">Content</string>
+    <string name="noName">No name</string>
 </resources>

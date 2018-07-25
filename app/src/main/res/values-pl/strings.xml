@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NotesApp</string>
+    <string name="add">Dodaj</string>
+    <string name="title_activity_edit_note">Edytuj</string>
+    <string name="delete">Usuń</string>
+    <string name="hintTitle">Tytuł</string>
+    <string name="hintContent">Treść</string>
+    <string name="noName">Brak nazwy</string>
+</resources>
