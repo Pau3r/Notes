@@ -50,6 +50,12 @@ public interface ListContainer {
      */
     Object getContent(int index, int flag);
 
+    /**
+     *
+      * @return index of last element
+     */
+    int getLastIndex();
+
 
 
 

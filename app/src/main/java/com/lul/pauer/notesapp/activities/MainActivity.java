@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.lul.pauer.notesapp.models.Note;
 import com.lul.pauer.notesapp.adapters.NoteAdapter;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView, new RecyclerItemListener.RecyclerTouchListener() {
             @Override
             public void onClickItem(View v, int position) {
-                goToNext(position);
+                goToEditNote(position);
                 //savePreferences.saveNoteList();
             }
 
@@ -78,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add:
                 noteList.addOne(new Note(getResources().getString(R.string.noName), ""));
-                Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
+                goToEditNote(noteList.getLastIndex());
+                //Toast.makeText(this, R.string.added, Toast.LENGTH_SHORT).show();
                 //savePreferences.saveNoteList();
                 break;
             default:
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void goToNext(int index) {
+    private void goToEditNote(int index) {
         Intent intent = new Intent(getApplicationContext(), EditNoteActivity.class);
         intent.putExtra("index", index);
         startActivityForResult(intent, 1);//TODO change request code and check what is this

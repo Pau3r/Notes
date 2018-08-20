@@ -102,4 +102,9 @@ public class NoteList implements ListContainer, Serializable {
                 return null;
         }
     }
+
+    @Override
+    public int getLastIndex() {
+        return notes.size() - 1;
+    }
 }
